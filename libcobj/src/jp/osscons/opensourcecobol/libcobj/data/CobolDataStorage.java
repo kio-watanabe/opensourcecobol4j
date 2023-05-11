@@ -31,6 +31,8 @@ public class CobolDataStorage {
   /** このクラスの扱うデータが保存する領域のバイト配列中での相対位置 */
   private int index;
 
+  public boolean flag_native = false;
+
   /**
    * コンストラクタ.引数で指定された長さ分のバイト配列を確保する.
    *
@@ -121,6 +123,10 @@ public class CobolDataStorage {
    */
   public byte[] getData() {
     return this.getData(0);
+  }
+
+  public boolean getFlagNative() {
+    return this.flag_native;
   }
 
   /**
@@ -544,6 +550,7 @@ public class CobolDataStorage {
 
   public void set(byte value) {
     this.setByte(0, value);
+    this.flag_native = false;
   }
 
   /**
@@ -553,6 +560,7 @@ public class CobolDataStorage {
    */
   public void set(short value) {
     ByteBuffer.wrap(this.data, this.index, 2).putShort(value);
+    this.flag_native = false;
   }
 
   /**
@@ -562,6 +570,7 @@ public class CobolDataStorage {
    */
   public void set(int value) {
     ByteBuffer.wrap(this.data, this.index, 4).putInt(value);
+    this.flag_native = false;
   }
 
   /**
@@ -571,6 +580,7 @@ public class CobolDataStorage {
    */
   public void set(long value) {
     ByteBuffer.wrap(this.data, this.index, 8).putLong(value);
+    this.flag_native = false;
   }
 
   /**
@@ -580,10 +590,12 @@ public class CobolDataStorage {
    */
   public void set(double value) {
     ByteBuffer.wrap(this.data, this.index, 8).putDouble(value);
+    this.flag_native = false;
   }
 
   public void set(CobolDataStorage other) {
     this.set(other.intValue());
+    this.flag_native = false;
   }
 
   /**
@@ -595,6 +607,7 @@ public class CobolDataStorage {
   public void set(int value, int index) {
     ByteBuffer buffer = ByteBuffer.wrap(this.data, this.index + index, 4);
     buffer.putInt(value);
+    this.flag_native = false;
   }
 
   public boolean isSame(CobolDataStorage other) {
@@ -1371,6 +1384,11 @@ public class CobolDataStorage {
 
   public void setSwpS64Binary(int n) {
     this.fromLong(8, true, n);
+  }
+
+  public void setNative(long n, int size) {
+    this.flag_native = true;
+    this.fromLong(size, false, n);
   }
 
   /**
