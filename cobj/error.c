@@ -53,12 +53,16 @@ static void print_error(char *file, int line, const char *prefix,
   /* print the paragraph or section name */
   if (current_section != last_section || current_paragraph != last_paragraph) {
     if (current_paragraph &&
-        strcmp((const char *)(current_paragraph->name), "MAIN PARAGRAPH")) {
+        // strcmp((const char *)(current_paragraph->name), "MAIN PARAGRAPH")) {
+        strstr((const char *)(current_paragraph->name),
+               "SECTION__DEFAULT_PARAGRAPH") == NULL) {
       cb_get_jisword_buff((const char *)current_paragraph->name, msgword,
                           sizeof(msgword));
       fprintf(stderr, _("%s: In paragraph '%s':\n"), file, msgword);
     } else if (current_section &&
-               strcmp((const char *)(current_section->name), "MAIN SECTION")) {
+               //         strcmp((const char *)(current_section->name), "MAIN
+               //         SECTION")) {
+               strcmp((const char *)(current_section->name), "MAIN")) {
       cb_get_jisword_buff((const char *)current_section->name, msgword,
                           sizeof(msgword));
       fprintf(stderr, _("%s: In section '%s':\n"), file, msgword);
@@ -81,6 +85,7 @@ static void print_error(char *file, int line, const char *prefix,
       if (isalpha(*pstr) != 0) {
         param = va_arg(ap, void *);
         switch (*pstr) {
+          printf("dbg: pstr=%c\n", *pstr);
         case 's':
           allname[cnt] = p_bfree[cnt] = cb_get_jisword(param);
           cnt++;
@@ -106,6 +111,7 @@ static void print_error(char *file, int line, const char *prefix,
           stderr);
   } else {
     /* error output */
+    printf("dbg: cnt=%d\n", cnt);
     switch (cnt) {
     case 0:
       snprintf(errmsgbuff, COB_NORMAL_BUFF, fmt);
@@ -158,6 +164,7 @@ void cb_warning(const char *fmt, ...) {
 }
 
 void cb_error(const char *fmt, ...) {
+  printf("dbg: cb_error\n");
   va_list ap;
 
   va_start(ap, fmt);
