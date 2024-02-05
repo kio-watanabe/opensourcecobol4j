@@ -15,9 +15,9 @@ jobs:
       with:
         fetch-depth: 0
     - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
       env:
         SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
         LC_ALL: "ja_JP.UTF-8"
+      uses: sonarsource/sonarqube-scan-action@master
 
