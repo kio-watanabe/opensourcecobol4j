@@ -15,9 +15,11 @@ jobs:
       with:
         fetch-depth: 0
     - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      with:
+        args: -Dsonar.projectKey=test-opensource-cobol4j -Dsonar.projectName='test-opensource-cobol4j' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_4eacb66fd8f4601648b69a61f18ac99bb66f82e8
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         LC_ALL: "ja_JP.UTF-8"
-      uses: sonarsource/sonarqube-scan-action@master
 
