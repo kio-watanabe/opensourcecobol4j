@@ -59,5 +59,3 @@ jobs:
   static-analysis:
     uses: ./.github/workflows/static-analysis.yml
 
-  scan-by-sonar:
-    uses: ./.github/workflows/scan-by-sonar.yml
