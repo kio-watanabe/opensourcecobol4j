@@ -1,0 +1,6 @@
+projectKey=test-opensource-cobol4j
+serverUrl=http://localhost:9000
+serverVersion=10.3.0.82913
+dashboardUrl=http://localhost:9000/dashboard?id=test-opensource-cobol4j
+ceTaskId=AY2LP0WXdiNRyAvCOE8V
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AY2LP0WXdiNRyAvCOE8V

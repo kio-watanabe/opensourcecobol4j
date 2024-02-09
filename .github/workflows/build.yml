@@ -10,9 +10,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions: read-all
-    container:
-      image: ${{ inputs.os }}
+    # permissions: read-all
+    # container:
+    #   image: ${{ inputs.os }}
     steps: 
       # - uses: actions/setup-java@v4
       #   if: inputs.os == 'ubuntu:22.04'
