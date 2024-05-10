@@ -44,15 +44,17 @@
 #include <windows.h> /* for GetTempPath, GetTempFileName */
 #endif
 
+#ifdef _WIN32
+#include "../lib/getopot.h"
+#else
 #ifdef HAVE_KPATHSEA_GETOPT_H
 #include <kpathsea/getopt.h>
 #else
-#ifdef _WIN32
-#include "../lib/getopt.h"
-#elif HAVE_GETOPT_H
+#ifdef HAVE_GETOPT_H
 #include <getopt.h>
 #else
 #include "lib/getopt.h"
+#endif
 #endif
 #endif
 
