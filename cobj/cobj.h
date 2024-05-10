@@ -38,7 +38,6 @@
 #include "lib/gettext.h"
 #endif
 
-
 #if !defined(__i386__) && !defined(__x86_64__) && !defined(__powerpc__) &&     \
     !defined(__powerpc64__) && !defined(__ppc__) && !defined(__amd64__)
 #define COB_NON_ALIGNED
