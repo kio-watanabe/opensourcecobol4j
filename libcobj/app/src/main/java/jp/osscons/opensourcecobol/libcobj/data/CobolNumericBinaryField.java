@@ -62,17 +62,21 @@ public class CobolNumericBinaryField extends AbstractCobolField {
     }
   }
 
-  private void setBinaryValue(long n) {
+  private void setBinaryValue(long n, boolean isLittleEndian) {
     CobolDataStorage storage = this.getDataStorage();
-    if (this.size == 1) {
-      storage.setByte(0, (byte) n);
-    } else if (this.size == 2) {
-      storage.set((short) n);
-    } else if (this.size == 4) {
-      storage.set((int) n);
-    } else {
-      storage.set((long) n);
-    }
+   // if(isLittleEndian){
+      storage.fromLong(this.size, isLittleEndian, n);
+
+  //   }
+  //  else if (this.size == 1) {
+  //     storage.setByte(0, (byte) n);
+  //   } else if (this.size == 2) {
+  //     storage.set((short) n);
+  //   } else if (this.size == 4) {
+  //     storage.set((int) n);
+  //   } else {
+  //     storage.set((long) n);
+  //   }
   }
 
   @Override
@@ -86,7 +90,7 @@ public class CobolNumericBinaryField extends AbstractCobolField {
    * @param n TODO: 準備中
    */
   public void setLongValue(long n) {
-    this.setBinaryValue(n);
+    this.setBinaryValue(n, false);
   }
 
   @Override
@@ -131,7 +135,7 @@ public class CobolNumericBinaryField extends AbstractCobolField {
 
     switch (src1.getAttribute().getType()) {
       case CobolFieldAttribute.COB_TYPE_NUMERIC_DISPLAY:
-        this.moveDisplayToBinary(src1);
+        this.moveDisplayToBinary(src);
         break;
       case CobolFieldAttribute.COB_TYPE_NUMERIC_PACKED:
       case CobolFieldAttribute.COB_TYPE_ALPHANUMERIC:
@@ -198,7 +202,7 @@ public class CobolNumericBinaryField extends AbstractCobolField {
       val %= CobolConstant.exp10LL[this.getAttribute().getDigits()];
     }
 
-    this.setBinaryValue(val);
+    this.setBinaryValue(val, this.getAttribute().isFlagBinarySwap());
     field.putSign(sign);
   }
 

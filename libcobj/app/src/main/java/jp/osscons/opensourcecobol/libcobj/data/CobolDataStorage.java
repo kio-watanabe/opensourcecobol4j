@@ -850,9 +850,9 @@ public class CobolDataStorage {
     return this.getDataStorage((int) index);
   }
 
-  private long toLong(int numOfBytes, boolean signed, boolean isBigEndian) {
+  public long toLong(int numOfBytes, boolean signed, boolean isLittleEndian) {
     ByteBuffer buffer = ByteBuffer.wrap(this.data);
-    buffer.order(isBigEndian ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN);
+    buffer.order(isLittleEndian ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN);
     if (numOfBytes == 1) {
       return buffer.get(this.index);
     } else if (numOfBytes == 2) {
@@ -896,18 +896,18 @@ public class CobolDataStorage {
    * @param n TODO: 準備中
    * @param numOfBytes TODO: 準備中
    * @param signed TODO: 準備中
-   * @param isBigEndian TODO: 準備中
+   * @param isLittleEndian TODO: 準備中
    * @return TODO: 準備中
    */
-  public int compareToBinary(long n, int numOfBytes, boolean signed, boolean isBigEndian) {
-    long val = this.toLong(numOfBytes, signed, isBigEndian);
+  public int compareToBinary(long n, int numOfBytes, boolean signed, boolean isLittleEndian) {
+    long val = this.toLong(numOfBytes, signed, isLittleEndian);
     Cmpr comparator = signed ? compareS : compareU;
     return comparator.run(val, n);
   }
 
-  private void fromLong(int numOfBytes, boolean isBigEndian, long n) {
+  public void fromLong(int numOfBytes, boolean isLittleEndian, long n) {
     ByteBuffer buffer = ByteBuffer.wrap(this.data);
-    buffer.order(isBigEndian ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN);
+    buffer.order(isLittleEndian ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN);
     if (numOfBytes <= 1) {
       buffer.put(this.index, (byte) n);
     } else if (numOfBytes <= 2) {
@@ -925,12 +925,12 @@ public class CobolDataStorage {
    * @param n TODO: 準備中
    * @param numOfBytes TODO: 準備中
    * @param signed TODO: 準備中
-   * @param isBigEndian TODO: 準備中
+   * @param isLittleEndian TODO: 準備中
    */
-  public void addBinary(long n, int numOfBytes, boolean signed, boolean isBigEndian) {
-    long x = this.toLong(numOfBytes, signed, isBigEndian);
+  public void addBinary(long n, int numOfBytes, boolean signed, boolean isLittleEndian) {
+    long x = this.toLong(numOfBytes, signed, isLittleEndian);
     x += n;
-    this.fromLong(numOfBytes, isBigEndian, x);
+    this.fromLong(numOfBytes, isLittleEndian, x);
   }
 
   /**
@@ -939,15 +939,15 @@ public class CobolDataStorage {
    * @param n TODO: 準備中
    * @param numOfBytes TODO: 準備中
    * @param signed TODO: 準備中
-   * @param isBigEndian TODO: 準備中
+   * @param isLittleEndian TODO: 準備中
    */
-  public void subBinary(long n, int numOfBytes, boolean signed, boolean isBigEndian) {
-    long x = this.toLong(numOfBytes, signed, isBigEndian);
+  public void subBinary(long n, int numOfBytes, boolean signed, boolean isLittleEndian) {
+    long x = this.toLong(numOfBytes, signed, isLittleEndian);
     x -= n;
-    this.fromLong(numOfBytes, isBigEndian, x);
+    this.fromLong(numOfBytes, isLittleEndian, x);
   }
 
-  // n numofBytes signed isBigEndian
+  // n numofBytes signed isLittleEndian
   /**
    * TODO: 準備中
    *
@@ -1188,7 +1188,7 @@ public class CobolDataStorage {
     return compareToBinary(n, 8, true, true);
   }
 
-  // n numofBytes signed isBigEndian
+  // n numofBytes signed isLittleEndian
   /**
    * TODO: 準備中
    *
@@ -1405,7 +1405,7 @@ public class CobolDataStorage {
     addBinary(n, 8, true, true);
   }
 
-  // n numofBytes signed isBigEndian
+  // n numofBytes signed isLittleEndian
   /**
    * TODO: 準備中
    *
@@ -1608,7 +1608,7 @@ public class CobolDataStorage {
     subBinary(n, 8, true, true);
   }
 
-  // n numofBytes signed isBigEndian
+  // n numofBytes signed isLittleEndian
   /**
    * TODO: 準備中
    *
@@ -1826,7 +1826,7 @@ public class CobolDataStorage {
     return compareToBinary(n, 8, true, true);
   }
 
-  // n numofBytes signed isBigEndian
+  // n numofBytes signed isLittleEndian
   /**
    * TODO: 準備中
    *
@@ -2020,7 +2020,7 @@ public class CobolDataStorage {
     addBinary(n, 8, true, true);
   }
 
-  // n numofBytes signed isBigEndian
+  // n numofBytes signed isLittleEndian
   /**
    * TODO: 準備中
    *
@@ -2219,6 +2219,9 @@ public class CobolDataStorage {
    * @param n TODO: 準備中
    */
   public void setSwpU16Binary(int n) {
+    // this.set((short)n);
+    // System.out.println("dbg: bswap_16=" + this.bswap_16());
+    // this.set((short)this.bswap_16());
     this.fromLong(2, true, n);
   }
   /**
