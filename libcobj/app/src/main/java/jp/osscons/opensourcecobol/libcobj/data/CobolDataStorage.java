@@ -35,6 +35,8 @@ public class CobolDataStorage {
   /** このクラスの扱うデータが保存する領域のバイト配列中での相対位置 */
   private int index;
 
+  public int numOfBytes;
+
   /**
    * 引数で指定された長さ分のバイト配列を確保する.相対位置は0にする.
    *

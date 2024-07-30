@@ -347,21 +347,42 @@ public class CobolNumericField extends AbstractCobolField {
    * @param field 代入元のデータ(AbstractCobolField型)
    */
   private void moveBinaryToDisplay(AbstractCobolField field) {
+    //System.out.println("dbg: moveBinaryToDisplay");
     int sign = 1;
+    int size = this.getSize();
     long val = field.getLongValue();
-
-    if (this.getAttribute().isFlagHaveSign() && val < 0) {
-      sign = -1;
-      val = -val;
+    boolean isLittleEndian = this.getAttribute().isFlagBinarySwap();
+    //System.out.println("dbg: size=" + this.getSize());
+    if(isLittleEndian){
+      ByteBuffer buffer = ByteBuffer.allocate(size);
+      if(size <= 1){
+        val = buffer.put((byte) val).order(ByteOrder.LITTLE_ENDIAN).get(0);
+      }else if(size <= 2){
+        val = buffer.putShort((short) val).order(ByteOrder.LITTLE_ENDIAN).getShort(0);
+      }else if(size <= 4){
+        val = buffer.putInt((int) val).order(ByteOrder.LITTLE_ENDIAN).getInt(0);
+      }else{
+        val = buffer.putLong(val).order(ByteOrder.LITTLE_ENDIAN).getLong(0);
+      }
     }
-
+    //System.out.println("dbg1: val=" + val);
+    if (this.getAttribute().isFlagHaveSign()){
+      if(val < 0) {
+        sign = -1;
+        val = -val;
+      }
+    }
+    //System.out.println("dbg1: val=" + val);
     int i = 20;
     byte[] buff = new byte[64];
     while (val > 0) {
       buff[--i] = (byte) (val % 10 + 0x30);
       val /= 10;
     }
-
+    // CobolDataStorage dataStorage = this.getDataStorage();
+    // dataStorage.set(buff);
+    //System.out.println("dbg2: scale=" + field.getAttribute().getScale());
+    this.setSize(this.getAttribute().getDigits());
     this.storeCommonRegion(
         this, new CobolDataStorage(buff, 0), i, (20 - i), field.getAttribute().getScale());
     this.putSign(sign);
@@ -551,12 +572,17 @@ public class CobolNumericField extends AbstractCobolField {
     int lf1 = -scale;
     int lf2 = -field.getAttribute().getScale();
     int hf1 = size + lf1;
-    int hf2 = field.getFieldSize() + lf2;
+    CobolFieldAttribute attr = this.getAttribute();
+    int fieldSize = attr.getDigits(); //+ (attr.isFlagHaveSign() ? 1 : 0) + (attr.getScale() > 0 ? 1 : 0);
+    //int hf2 = field.getFieldSize() + lf2;
+    int hf2 = fieldSize + lf2;
 
     int lcf = Math.max(lf1, lf2);
     int gcf = Math.min(hf1, hf2);
-
-    for (int i = 0; i < field.getFieldSize(); ++i) {
+    //System.out.printf("dbg: lf1=%d lf2=%d hf1=%d hf2=%d lcf=%d gcf=%d\n",lf1, lf2, hf1, hf2, lcf, gcf);
+    //System.out.println("dbg: fieldsize="+fieldSize);
+    //for (int i = 0; i < field.getFieldSize(); ++i) {
+      for (int i = 0; i < fieldSize; ++i) {
       field.getDataStorage().setByte(i + field.getFirstDataIndex(), (byte) 0x30);
     }
 
@@ -564,12 +590,15 @@ public class CobolNumericField extends AbstractCobolField {
       int csize = gcf - lcf;
       int p = hf1 - gcf;
       int q = field.getFirstDataIndex() + hf2 - gcf;
+      //System.out.println("dbg: csize=" + csize + ", p=" + p + ", q=" + q + " dataStartIndex=" + dataStartIndex);
       for (int cinc = 0; cinc < csize; ++cinc, ++p, ++q) {
+       // System.out.printf("dbg: data=%c\n", data.getByte(dataStartIndex + p));
         if (data.getByte(dataStartIndex + p) == (byte) 0x20) {
           field.getDataStorage().setByte(q, (byte) 0x30);
         } else {
           byte value = data.getByte(dataStartIndex + p);
           field.getDataStorage().setByte(q, value);
+          //System.out.printf("dbg: field[%d]=%c\n",q,field.getDataStorage().getByte(q));
         }
       }
     }
