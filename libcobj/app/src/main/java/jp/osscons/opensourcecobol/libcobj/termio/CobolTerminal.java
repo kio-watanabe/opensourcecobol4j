@@ -76,7 +76,7 @@ public class CobolTerminal {
     
     // if(attr.isFlagHaveSign()) {
     //   System.out.println("dbg: isFlagHaveSign");
-       attr.setPic("+9");
+    //   attr.setPic("+9");
     // }
     CobolFieldAttribute temp =
         new CobolFieldAttribute(
@@ -117,7 +117,6 @@ public class CobolTerminal {
       if (attr.isTypeNumericBinary() && CobolModule.getCurrentModule().flag_pretty_display == 0) {
         stream.print(field);
       } else if (attr.isTypeNumeric()) {
-        //System.out.println("dbg: display2");
         prettyDisplayNumeric(field, attr, stream);
         //stream.print(field);
       } else {

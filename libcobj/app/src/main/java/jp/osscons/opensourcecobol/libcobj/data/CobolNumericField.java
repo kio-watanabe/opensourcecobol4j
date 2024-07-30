@@ -179,6 +179,7 @@ public class CobolNumericField extends AbstractCobolField {
         this.moveDisplayToDisplay(src1);
         break;
       case CobolFieldAttribute.COB_TYPE_NUMERIC_PACKED:
+      //System.out.println("dbg: moveFrom");
         this.movePackedToDisplay(src1);
         break;
       case CobolFieldAttribute.COB_TYPE_NATIONAL:
@@ -230,6 +231,7 @@ public class CobolNumericField extends AbstractCobolField {
    * @param field 代入元のデータ(AbstractCobolField型)
    */
   private void movePackedToDisplay(AbstractCobolField field) {
+    //System.out.println("dbg: movePackedToDisplay");
     int sign = field.getSign();
     int offset = 1 - (field.getAttribute().getDigits() % 2);
     CobolDataStorage buff = new CobolDataStorage(64);
@@ -250,6 +252,7 @@ public class CobolNumericField extends AbstractCobolField {
         buff.setByte(i - offset, (byte) ((field.getDataStorage().getByte(i / 2) & 0x0f) + 0x30));
       }
     }
+    this.setSize(this.getAttribute().getDigits());
     this.storeCommonRegion(
         this, buff, field.getAttribute().getDigits(), field.getAttribute().getScale());
 
