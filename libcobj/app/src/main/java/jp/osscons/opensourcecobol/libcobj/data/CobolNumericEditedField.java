@@ -67,7 +67,7 @@ public class CobolNumericEditedField extends AbstractCobolField {
       return;
     }
 
-    //System.out.println("dbg: type=" + src1.getAttribute().getType());
+    // System.out.println("dbg: type=" + src1.getAttribute().getType());
     switch (src1.getAttribute().getType()) {
       case CobolFieldAttribute.COB_TYPE_NUMERIC_DISPLAY:
         CobolNumericEditedField.moveDisplayToEdited(this, src1);
@@ -89,7 +89,6 @@ public class CobolNumericEditedField extends AbstractCobolField {
   }
 
   private static void moveDisplayToEdited(AbstractCobolField dst, AbstractCobolField src) {
-    //System.out.println("dbg: moveDisplayToEdited");
     int decimalPoint = 0;
     int sign = src.getSign();
     src.putSign(+1);
@@ -103,13 +102,9 @@ public class CobolNumericEditedField extends AbstractCobolField {
     final int sizeOfInt = 4;
     for (int p = 0; p < picBytes.length; p += 5) {
       byte c = picBytes[p];
-      //System.out.printf("dbg: p=%s\n",picBytes[p]);
-      //System.out.println("dbg: picByteslength="+picBytes.length);
-      //System.out.println("dbg: sizeOfInt="+sizeOfInt);
-      ByteBuffer buf = ByteBuffer.wrap(picBytes, p, picBytes.length);
+      ByteBuffer buf = ByteBuffer.wrap(picBytes, p + 1, sizeOfInt);
       buf.order(ByteOrder.LITTLE_ENDIAN);
-      //int repeat = buf.getInt();
-      int repeat = buf.getShort();
+      int repeat = buf.getInt();
       if (c == '9' || c == 'Z' || c == '*') {
         count += repeat;
         countSign = 0;
@@ -165,9 +160,7 @@ public class CobolNumericEditedField extends AbstractCobolField {
 
     for (int p = 0; p < picBytes.length; ) {
       byte c = picBytes[p++];
-      //System.out.printf("dbg: c=%s\n",c);
-      //System.out.printf("dbg: picBytes[p]=%s\n",picBytes[p]);
-      ByteBuffer buf = ByteBuffer.wrap(picBytes, p, picBytes.length);
+      ByteBuffer buf = ByteBuffer.wrap(picBytes, p, sizeOfInt);
       buf.order(ByteOrder.LITTLE_ENDIAN);
       int n = buf.getInt();
       p += sizeOfInt;

@@ -29,7 +29,6 @@ import jp.osscons.opensourcecobol.libcobj.data.AbstractCobolField;
 import jp.osscons.opensourcecobol.libcobj.data.CobolDataStorage;
 import jp.osscons.opensourcecobol.libcobj.data.CobolFieldAttribute;
 import jp.osscons.opensourcecobol.libcobj.data.CobolFieldFactory;
-import jp.osscons.opensourcecobol.libcobj.data.CobolNumericEditedField;
 import jp.osscons.opensourcecobol.libcobj.data.CobolNumericField;
 import jp.osscons.opensourcecobol.libcobj.exceptions.CobolExceptionId;
 import jp.osscons.opensourcecobol.libcobj.exceptions.CobolExceptionInfo;
@@ -72,8 +71,9 @@ public class CobolTerminal {
     stream.write(storage.getRefOfData(), storage.getIndex(), f.getSize());
   }
 
-  private static void prettyDisplayNumeric(AbstractCobolField f, CobolFieldAttribute attr, PrintStream stream) {
-    
+  private static void prettyDisplayNumeric(
+      AbstractCobolField f, CobolFieldAttribute attr, PrintStream stream) {
+
     // if(attr.isFlagHaveSign()) {
     //   System.out.println("dbg: isFlagHaveSign");
     //   attr.setPic("+9");
@@ -90,15 +90,16 @@ public class CobolTerminal {
     // }
     byte[] data = new byte[256];
     CobolDataStorage dataStorage = new CobolDataStorage(data);
-    //int size = (attr.getDigits() +  (attr.isFlagHaveSign() ? 1 : 0) + (attr.getScale() > 0 ? 1 : 0));
-    //System.out.println("dbg: size="+f.getSize());
-    //CobolDataStorage storage = f.getDataStorage();
-    //AbstractCobolField temp = CobolFieldFactory.makeCobolField(size, storage, attr);
+    // int size = (attr.getDigits() +  (attr.isFlagHaveSign() ? 1 : 0) + (attr.getScale() > 0 ? 1 :
+    // 0));
+    // System.out.println("dbg: size="+f.getSize());
+    // CobolDataStorage storage = f.getDataStorage();
+    // AbstractCobolField temp = CobolFieldFactory.makeCobolField(size, storage, attr);
     CobolNumericField numericField = new CobolNumericField(f.getSize(), dataStorage, temp);
     numericField.moveFrom(f);
-    //numericField.setSize(size);
+    // numericField.setSize(size);
     stream.print(numericField);
-    //stream.write(storage.getRefOfData(), storage.getIndex(), f.getSize());
+    // stream.write(storage.getRefOfData(), storage.getIndex(), f.getSize());
   }
 
   /**
@@ -113,12 +114,13 @@ public class CobolTerminal {
     PrintStream stream = outorerr == 0 ? System.out : System.err;
     for (AbstractCobolField field : fields) {
       CobolFieldAttribute attr = field.getAttribute();
-      //System.out.println("dbg: flag_pretty_display="+CobolModule.getCurrentModule().flag_pretty_display);
+      // System.out.println("dbg:
+      // flag_pretty_display="+CobolModule.getCurrentModule().flag_pretty_display);
       if (attr.isTypeNumericBinary() && CobolModule.getCurrentModule().flag_pretty_display == 0) {
         stream.print(field);
       } else if (attr.isTypeNumeric()) {
         prettyDisplayNumeric(field, attr, stream);
-        //stream.print(field);
+        // stream.print(field);
       } else {
         displayAlnum(field, stream);
       }

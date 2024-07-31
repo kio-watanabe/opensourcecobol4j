@@ -64,19 +64,19 @@ public class CobolNumericBinaryField extends AbstractCobolField {
 
   private void setBinaryValue(long n, boolean isLittleEndian) {
     CobolDataStorage storage = this.getDataStorage();
-   // if(isLittleEndian){
-      storage.fromLong(this.size, isLittleEndian, n);
+    // if(isLittleEndian){
+    storage.fromLong(this.size, isLittleEndian, n);
 
-  //   }
-  //  else if (this.size == 1) {
-  //     storage.setByte(0, (byte) n);
-  //   } else if (this.size == 2) {
-  //     storage.set((short) n);
-  //   } else if (this.size == 4) {
-  //     storage.set((int) n);
-  //   } else {
-  //     storage.set((long) n);
-  //   }
+    //   }
+    //  else if (this.size == 1) {
+    //     storage.setByte(0, (byte) n);
+    //   } else if (this.size == 2) {
+    //     storage.set((short) n);
+    //   } else if (this.size == 4) {
+    //     storage.set((int) n);
+    //   } else {
+    //     storage.set((long) n);
+    //   }
   }
 
   @Override
