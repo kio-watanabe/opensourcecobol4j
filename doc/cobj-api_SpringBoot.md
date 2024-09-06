@@ -11,7 +11,7 @@
 
 1. Select Spring Boot version.
 
-1. Select Java as the language. ![alt text](../image/doc5.png)
+1. Select Java as the language.<br> ![alt text](../image/doc5.png)
 
 1. Enter any Group ID. In this step, enter "com.example". ![alt text](../image/doc6.png)
 
@@ -23,11 +23,11 @@
 1. Select the dependent libraries. In this step, only Spring Web is selected, but other libraries can be selected as needed.  
 ![alt text](../image/doc8.png)
 
-1. Select the directory to create the project in and press enter.  
+1. Select the directory to create the project in and press Enter.  
 The project will be created according to the above steps. ![alt text](../image/doc9.png)
 
 # Create an API using Spring Boot/cobj-api
-1. Prepare a COBOL program with a `LINKAGE SECTION`. In this procedure, the following sample program will be used.
+1. Prepare a COBOL program with a `LINKAGE SECTION`. For this example, we'll use the following sample program:
 
     sample.cbl
     ``` cobol
@@ -53,7 +53,7 @@ The project will be created according to the above steps. ![alt text](../image/d
 
     ```
 
-2. Generate a JSON file from the COBOL program using `cobj` command.
+2. Generate a JSON file from the COBOL program using the `cobj` command.
      ```
      cobj -info-json-dir=./ -java-package=com.example.cobj_api_test sample.cbl
      ```
@@ -87,14 +87,14 @@ The project will be created according to the above steps. ![alt text](../image/d
       ]
     }    
     ```
-3. Generate Spring Boot Java files from the JSON file using `cobj-api` command.
+3. Generate Spring Boot Java files from the JSON file using the `cobj-api` command.
    ```
     cobj-api -java-package=com.example.cobj_api_test info_sample.json
     ```
-   * `-java-package`：生成されるJavaファイルのパッケージ名を指定するオプション。
+   * `-java-package`：Option to specify the package name of the generated Java file.
 
     This will generate sampleController.java and sampleRecord.java.
-4. Place sample.java, sampleController.java, and sampleRecord.java in the created Spring Boot project.   
+4. Place `sample.java`, `sampleController.java`, and `sampleRecord.java` in the created Spring Boot project.   
 In this procedure, they will be placed in "src/main/java/com/example/cobj_api_test".
 
     File structure
@@ -120,7 +120,7 @@ In this procedure, they will be placed in "src/main/java/com/example/cobj_api_te
     ```
 
 
-5. Place libcobj.jar anywhere in the project.   
+5. Place `libcobj.jar` anywhere in the project.   
 
     File structure
     ```
@@ -147,7 +147,7 @@ In this procedure, they will be placed in "src/main/java/com/example/cobj_api_te
     ```
     * libcobj.jar is a jar file that is generated under "opensourcecobol4j/libcobj/app/build/lib/" when opensource COBOL 4J is installed.
 
-6. 依存関係の追加
+6. Add Dependencies
 * For Gradle   
   Modify build.gradle as follows.
    ```
@@ -161,7 +161,7 @@ In this procedure, they will be placed in "src/main/java/com/example/cobj_api_te
     * "spring-boot-starter-web" is a dependency that has been added by default in the previous steps.
     * The provider included in "spring-boot-starter-web" conflicts with the provider included in libocbj.jar, so it needs to be excluded with `exclude group`.
 * For Maven   
-  Add the following dependency to pom.xml.
+  Add the following dependency to `pom.xml`.
     ```
     <dependency>
         	<groupId>libcobj</groupId>
@@ -172,7 +172,7 @@ In this procedure, they will be placed in "src/main/java/com/example/cobj_api_te
     </dependency>
     ```
 7. Build and launch the Spring Boot project.   
-   Run the following command in the root directory of the project.
+   Run the following command in the root directory of the project:
 * For Gradle
     ```
     ./gradlew bootRun
