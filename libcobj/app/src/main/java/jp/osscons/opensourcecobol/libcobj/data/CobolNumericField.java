@@ -576,18 +576,22 @@ public class CobolNumericField extends AbstractCobolField {
     int lf2 = -field.getAttribute().getScale();
     int hf1 = size + lf1;
     CobolFieldAttribute attr = this.getAttribute();
-    int fieldSize =
-        attr.getDigits(); // + (attr.isFlagHaveSign() ? 1 : 0) + (attr.getScale() > 0 ? 1 : 0);
-    // int hf2 = field.getFieldSize() + lf2;
-    int hf2 = fieldSize + lf2;
+    // int fieldSize =
+    //     attr.getDigits(); // + (attr.isFlagHaveSign() ? 1 : 0) + (attr.getScale() > 0 ? 1 : 0);
+    int hf2 = field.getFieldSize() + lf2;
+    //int hf2 = fieldSize + lf2;
 
     int lcf = Math.max(lf1, lf2);
     int gcf = Math.min(hf1, hf2);
-    // System.out.printf("dbg: lf1=%d lf2=%d hf1=%d hf2=%d lcf=%d gcf=%d\n",lf1, lf2, hf1, hf2, lcf,
-    // gcf);
+    //System.out.println("size="+size + " lf1="+lf1);
+    //System.out.println("dbg: hf2="+ hf2);
+    //System.out.printf("dbg: lf1=%d lf2=%d hf1=%d hf2=%d lcf=%d gcf=%d\n\n",lf1, lf2, hf1, hf2, lcf, gcf);
+    
     // System.out.println("dbg: fieldsize="+fieldSize);
-    // for (int i = 0; i < field.getFieldSize(); ++i) {
-    for (int i = 0; i < fieldSize; ++i) {
+    //System.out.println("dbg: field.getFieldSize()="+field.getFieldSize());
+    // System.out.println("dbg: field.getDataStorage()="+field.getDataStorage().getData().length);
+    for (int i = 0; i < field.getFieldSize(); ++i) {
+    //for (int i = 0; i < fieldSize; ++i) {
       field.getDataStorage().setByte(i + field.getFirstDataIndex(), (byte) 0x30);
     }
 
