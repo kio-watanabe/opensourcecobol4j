@@ -170,6 +170,8 @@ public class CobolInspect {
         CobolInspect.inspectVarCopy = var;
         CobolInspect.inspectVar = CobolInspect.inspectVarCopy;
         CobolFieldAttribute attr = var.getAttribute();
+        CobolInspect.inspectSign = var.getSign();
+        CobolInspect.inspectData = var.getDataStorage();
 
         if (attr.isTypeNumericDisplay() && CobolInspect.inspectSign < 0) {
             int p;
@@ -181,13 +183,11 @@ public class CobolInspect {
 
             byte value = inspectVar.getDataStorage().getByte(p);
             value = (byte) (value >= 0x70 ? value - 0x40 : value);
-            CobolInspect.inspectVar.getDataStorage().setByte(p, value);
+            CobolInspect.inspectData.setByte(p, value);
         }
 
         CobolInspect.inspectReplacing = replacing;
-        CobolInspect.inspectSign = var.getSign();
         CobolInspect.inspectSize = var.getFieldSize();
-        CobolInspect.inspectData = var.getDataStorage();
         CobolInspect.inspectStart = -1;
         CobolInspect.inspectEnd = -1;
         if (inspectSize > lastsize) {
