@@ -8,6 +8,7 @@ AT_DATA([prog.cob], [
            STOP RUN.
 ])
 
+AT_CHECK([echo $LANG])
 AT_CHECK([${COMPILE} prog.cob])
 
 AT_CLEANUP
