@@ -152,6 +152,7 @@ AT_CLEANUP
 
 AT_SETUP([Nihongo Filename])
 export LC_ALL=''
+export LANG=C.utf8
 
 AT_DATA([prog.cob], [
        IDENTIFICATION   DIVISION.
