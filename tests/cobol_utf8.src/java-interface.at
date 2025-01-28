@@ -512,6 +512,8 @@ public class a {
 			String ret2 = rs.getString(2);
 			System.out.println("ret1: " + ret1);
 			System.out.println("ret2: " + ret2);
+                        String encoding = System.getProperty("file.encoding");
+                        System.out.println("File Encoding: " + encoding);
 		} catch(CobolResultSetException e){
 			e.printStackTrace();
 		}
