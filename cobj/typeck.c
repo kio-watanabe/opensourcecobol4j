@@ -4190,10 +4190,11 @@ cb_tree cb_build_replacing_all(cb_tree x, cb_tree y, cb_tree l, cb_tree var) {
 #ifdef I18N_UTF8
   // cb_validate_inspect_replaceable(x, y);
 
-  struct cb_literal *f = CB_LITERAL(x);
-  const unsigned char *p = f->data;
-  if (COB_U8BYTE_1(*p) > 1 && y == cb_zero) {
-    y = cb_zero_utf8;
+  if(CB_LITERAL_P(x)){
+    const unsigned char *p =  CB_LITERAL(x)->data;
+    if (COB_U8BYTE_1(*p) > 1 && y == cb_zero) {
+      y = cb_zero_utf8;
+    }
   }
 #else  /*I18N_UTF8*/
   /*

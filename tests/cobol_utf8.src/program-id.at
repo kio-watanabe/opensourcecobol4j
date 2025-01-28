@@ -62,6 +62,7 @@ AT_CLEANUP
 
 AT_SETUP([PROGRAM-ID NATIONAL 32 character no over])
 export LC_ALL=''
+export LANG=C.utf8
 
 AT_DATA([prog.cob], [
        IDENTIFICATION   DIVISION.
