@@ -6974,15 +6974,12 @@ refmod:
 		CB_REFERENCE ($0)->value = CB_TREE (cb_field ($0));
 		if (cb_tree_category ($0) == CB_CATEGORY_NATIONAL ||
 		    cb_tree_category ($0) == CB_CATEGORY_NATIONAL_EDITED) {
-			printf("dbg: refmod OK\n");
 			$2 = cb_build_binary_op ($2, '*', cb_int2);
 			$2 = cb_build_binary_op ($2, '-', cb_int1);
 		} else {
 			CB_TREE ($0)->category = CB_CATEGORY_ALPHANUMERIC;
 		}
 		CB_REFERENCE ($0)->offset = $2;
-	}else{
-		printf("dbg: cb_ref ($0) == cb_error_node\n");
 	}
   }
 | '(' exp ':' exp ')'
