@@ -821,7 +821,7 @@ read_literal (int mark, enum cb_category category)
 			unput (c);
 			break;
 		}
-		if(c == '\n'){
+		if(cb_source_format == 0 && c == '\n'){
 			cb_error(_("The literal is not properly closed by %c."), mark);
 			break;
 		}
