@@ -821,6 +821,10 @@ read_literal (int mark, enum cb_category category)
 			unput (c);
 			break;
 		}
+		if(c == '\n'){
+			cb_error(_("The literal is not properly closed by %c."), mark);
+			break;
+		}
 		if (i >= plexsize) {
 			plexsize *= 2;
 			plexbuff = cobc_realloc (plexbuff, plexsize);
@@ -833,7 +837,6 @@ read_literal (int mark, enum cb_category category)
 		plexbuff[0] = ' ';
 	}
 	plexbuff[i] = 0;
-
 #ifdef	I18N_UTF8
 	/* I18N_UTF8: Alnum extended to support also national chars.
 	              Literal is granted for national, only when so
