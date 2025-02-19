@@ -3,11 +3,11 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     application
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("com.diffplug.spotless") version "7.0.0.BETA4"
+    id("com.diffplug.spotless") version "7.0.2"
     id("java")
     id("maven-publish")
     pmd
-    id("com.github.spotbugs") version "6.0.27"
+    id("com.github.spotbugs") version "6.1.3"
 }
 
 repositories {
@@ -32,11 +32,11 @@ tasks {
 
 dependencies {
     implementation("com.google.guava:guava:33.4.0-jre")
-    implementation("org.xerial:sqlite-jdbc:3.47.1.0")
+    implementation("org.xerial:sqlite-jdbc:3.48.0.0")
     implementation("commons-cli:commons-cli:1.9.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    implementation("org.json:json:20240303")
+    implementation("org.json:json:20250107")
     spotbugs("com.github.spotbugs:spotbugs:4.8.6")
 
     implementation("org.slf4j:slf4j-api:2.0.16")
@@ -80,7 +80,7 @@ publishing {
         register<MavenPublication>("gpr") {
             groupId = "jp.osscons.opensourcecobol"
             artifactId = "libcobj"
-            version = "1.1.5"
+            version = "1.1.6"
             from(components["java"])
         }
     }
