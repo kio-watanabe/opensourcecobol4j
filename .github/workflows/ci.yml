@@ -6,8 +6,8 @@ on:
     types: [opened, reopened, review_requested, synchronize]
   workflow_dispatch:
   # Run tests 10:00 PM (JST) every day
-  schedule:
-    - cron: '0 13 * * *'
+  # schedule:
+  #   - cron: '0 13 * * *'
 
 permissions:
   contents: read
