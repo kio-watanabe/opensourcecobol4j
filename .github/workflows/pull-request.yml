@@ -19,6 +19,35 @@ permissions:
   contents: read
 
 jobs:
+  reviewdog:
+    name: reviewdog
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Grant permission for gradlew
+        run: chmod +x ./libcobj/gradlew
+      - name: Run spotBugsMain
+        run: ./libcobj/gradlew spotBugsMain
+      - name: Set up reviewdog
+        uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: v0.17.2
+      - name: Run reviewdog
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          cat ./build/reports/spotbugs/main.sarif 
+          | reviewdog -f sarif -reporter=github-pr-check -name run-reviewdog -tee
+
   check-workflows:
     uses: ./.github/workflows/check-workflows.yml
 
