@@ -42,6 +42,11 @@ public class CobolDataStorage {
     public CobolDataStorage(int size) {
         this.data = new byte[size];
         this.index = 0;
+
+        //dummy code
+        if(true){
+            return;
+        }
     }
 
     /**
