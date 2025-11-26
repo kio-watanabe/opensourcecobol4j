@@ -34,9 +34,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
       - name: Grant permission for gradlew
-        run: chmod +x ./gradlew
+        run: chmod +x ./libcobj/gradlew
       - name: Run spotBugsMain
-        run: ./gradlew spotBugsMain
+        run: ./libcobj/gradlew spotBugsMain
       - name: Set up reviewdog
         uses: reviewdog/action-setup@v1
         with:
