@@ -3679,16 +3679,19 @@ static void joutput_stmt(cb_tree x, enum joutput_stmt_type output_type) {
     // the end of the previous label.
     if (flag_execution_end == EXECUTION_NORMAL) {
       joutput_prefix();
-      joutput("return Optional.of(contList[");
+      // joutput("return Optional.of(contList[");
+      // joutput_label_variable_by_value(++control_counter);
+      // joutput("]);\n");
+      joutput("SetNext(");
       joutput_label_variable_by_value(++control_counter);
-      joutput("]);\n");
+      joutput("_ref);\n");
     } else {
       joutput_line("return Optional.of(CobolControl.pure());");
     }
     joutput_indent_level -= 2;
     joutput_line("}");
-    joutput_indent_level -= 2;
-    joutput_line("},");
+    // joutput_indent_level -= 2;
+    // joutput_line("},");
 
     // output comment
     if (lp->is_section) {
@@ -3713,24 +3716,27 @@ static void joutput_stmt(cb_tree x, enum joutput_stmt_type output_type) {
 
     // the start of the label
     joutput_prefix();
-    joutput("new CobolControl(");
+    // joutput("new CobolControl(");
+    joutput("void ");
     if (flag_execution_begin == EXECUTION_ERROR_HANDLER) {
       joutput_label_variable_by_value(control_counter + 1);
     } else {
       joutput_label_variable_by_value(control_counter);
     }
 
-    if (lp->is_section) {
-      joutput(", CobolControl.LabelType.section) {");
-    } else {
-      joutput(", CobolControl.LabelType.label) {");
-    }
-    joutput_newline();
+    joutput_line("(){");
 
-    joutput_indent_level += 2;
-    joutput_line(
-        "public Optional<CobolControl> run() throws CobolRuntimeException, "
-        "CobolGoBackException, CobolStopRunException {");
+    // if (lp->is_section) {
+    //   joutput(", CobolControl.LabelType.section) {");
+    // } else {
+    //   joutput(", CobolControl.LabelType.label) {");
+    // }
+    // joutput_newline();
+
+    // joutput_indent_level += 2;
+    // joutput_line(
+    //     "public Optional<CobolControl> run() throws CobolRuntimeException, "
+    //     "CobolGoBackException, CobolStopRunException {");
     joutput_indent_level += 2;
 
     if (cb_flag_trace) {
@@ -5826,13 +5832,15 @@ static void destroy_label_id_map() {
 static void joutput_execution_list(struct cb_program *prog) {
   control_counter = 0;
 
-  joutput_line("public CobolControl[] contList = {");
-  joutput_indent_level += 2;
-  joutput_line("new CobolControl(0, CobolControl.LabelType.label) {");
-  joutput_indent_level += 2;
-  joutput_line(
-      "public Optional<CobolControl> run() throws CobolRuntimeException, "
-      "CobolGoBackException, CobolStopRunException {");
+  // joutput_line("public CobolControl[] contList = {");
+  // joutput_indent_level += 2;
+  // joutput_line("new CobolControl(0, CobolControl.LabelType.label) {");
+  // joutput_indent_level += 2;
+  // joutput_line(
+  //     "public Optional<CobolControl> run() throws CobolRuntimeException, "
+  //     "CobolGoBackException, CobolStopRunException {");
+  joutput_line("void label_0() {");
+
   joutput_indent_level += 2;
   cb_tree l;
   flag_execution_begin = EXECUTION_NORMAL;
@@ -5923,12 +5931,12 @@ static void joutput_execution_list(struct cb_program *prog) {
   joutput_line("return Optional.of(CobolControl.pure());");
   joutput_indent_level -= 2;
   joutput_line("}");
-  joutput_indent_level -= 2;
-  joutput_line("},");
+  // joutput_indent_level -= 2;
+  // joutput_line("},");
 
   joutput_line("CobolControl.pure()");
-  joutput_indent_level -= 2;
-  joutput_line("};");
+  // joutput_indent_level -= 2;
+  // joutput_line("};");
 }
 
 static void joutput_execution_entry_func() {
